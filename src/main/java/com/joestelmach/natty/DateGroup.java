@@ -19,6 +19,7 @@ public class DateGroup {
   private boolean _isRecurring;
   private boolean _isDateInferred;
   private boolean _isTimeInferred;
+  private boolean _isAmbiguous;
   private Date _recurringUntil;
   private Map<String, List<ParseLocation>> _parseLocations;
   private Tree _syntaxTree;
@@ -151,7 +152,16 @@ public class DateGroup {
   public boolean isRecurring() {
     return _isRecurring;
   }
-  
+
+  /**
+   * @return true if the parsed date fits an ambiguous format (m/d/y vs. d/m/y). In this case,
+   * the DateGroup will contain Dates for both possible values.
+   */
+
+  public boolean isAmbiguous() {
+    return this._isAmbiguous;
+  }
+
   /**
    * @return true if the time information in this group has been inferred,
    * as opposed to being explicitly defined in the input
@@ -170,6 +180,10 @@ public class DateGroup {
 
   public void setIsTimeInferred(boolean isTimeInferred) {
     this._isTimeInferred = isTimeInferred;
+  }
+
+  public void setAmbiguous(boolean isAmbiguous) {
+    this._isAmbiguous = isAmbiguous;
   }
 
   public void setLine(int line) {

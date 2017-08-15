@@ -312,6 +312,24 @@ public class WalkerState {
       }
     }
   }
+
+  public void setAmbiguousDate(String firstDayOrMonth, String secondDayOrMonth, String yearString) {
+    int first = Integer.parseInt(firstDayOrMonth);
+    int second = Integer.parseInt(secondDayOrMonth);
+    int year = Integer.parseInt(yearString);
+
+    _calendar.set(Calendar.MONTH, first - 1);
+    _calendar.set(Calendar.DAY_OF_MONTH, second);
+    _calendar.set(Calendar.YEAR, year);
+    _dateGroup.addDate(_calendar.getTime());
+    _calendar.set(Calendar.MONTH, second - 1);
+    _calendar.set(Calendar.DAY_OF_MONTH, first);
+    _dateGroup.setAmbiguous(true);
+  }
+
+  public void setDmyDate(String dayOfMonth, String month, String year) {
+    setExplicitDate(month, dayOfMonth, null, year);
+  }
   
   /**
    * Sets the the time of day

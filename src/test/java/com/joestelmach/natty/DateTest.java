@@ -37,6 +37,7 @@ public class DateTest extends AbstractTest {
     validateDate("28-Feb-2010", 2, 28, 2010);
     validateDate("9-Apr", 4, 9, Calendar.getInstance().get(Calendar.YEAR));
     validateDate("jan 10, '00", 1, 10, 2000);
+    validateDate("17/10/1981", 10, 17, 1981);
   }
   
   @Test
@@ -344,6 +345,19 @@ public class DateTest extends AbstractTest {
     Assert.assertEquals(2, dates.size());
     validateDate(dates.get(0), 3, 2, 2011);
     validateDate(dates.get(1), 5, 2, 2011);
+
+    List<DateGroup> dateGroupList = _parser.parse( "4/1/2017");
+    Assert.assertEquals(1, dateGroupList.size());
+    DateGroup dateGroup = dateGroupList.get(0);
+    Assert.assertTrue(dateGroup.isAmbiguous());
+
+    dates = dateGroup.getDates();
+    Assert.assertEquals(2, dates.size());
+    validateDate(dates.get(0), 4, 1, 2017);
+    validateDate(dates.get(1), 1, 4, 2017);
+
+    dateGroupList = _parser.parse("1-2-2017 to tomorrow");
+    Assert.assertEquals(2, dateGroupList.size());
   }
 
   // https://github.com/joestelmach/natty/issues/38
